@@ -3,6 +3,7 @@ import './App.css';
 import Explore from './components/Explore';
 import Home from './components/Home';
 import Login from './components/Login';
+import Main from './components/Main';
 import Register from './components/Register';
 import Updates from './components/Updates';
 function App() {
@@ -10,7 +11,7 @@ function App() {
         <>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Main />} />
                     <Route path="/explore" element={<Explore />} />
                     <Route path="/updates" element={<Updates />} />
                     <Route path="/login" element={<Login />} />
