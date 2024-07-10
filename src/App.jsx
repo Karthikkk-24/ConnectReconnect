@@ -1,10 +1,10 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import Explore from './components/Explore';
-import Login from './components/Login';
-import Main from './components/Main';
-import Register from './components/Register';
-import Updates from './components/Updates';
+import Explore from './Pages/Explore';
+import Login from './Pages/Login';
+import Main from './Pages/Main';
+import Register from './Pages/Register';
+import Updates from './Pages/Updates';
 function App() {
     return (
         <>

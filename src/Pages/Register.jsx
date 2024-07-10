@@ -124,7 +124,7 @@ export default function Register() {
                 <button className="w-auto h-auto flex items-center justify-center bg-primary rounded-lg px-5 py-3 font-semibold uppercase hover:scale-110 transition-all">
                     Sign Up
                 </button>
-                <Link to="/register">
+                <Link to="/login">
                     <p
                         className={`text-sm font-semibold ${
                             screenMode === 'dark'
