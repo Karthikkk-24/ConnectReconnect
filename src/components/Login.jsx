@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
-    
     const [screenMode, setScreenMode] = useState(
         () => sessionStorage.getItem('mode') || 'light'
     );
@@ -12,7 +12,6 @@ export default function Login() {
         sessionStorage.setItem('mode', newMode);
     };
 
-    
     useEffect(() => {
         sessionStorage.setItem('mode', screenMode);
     }, [screenMode]);
@@ -59,10 +58,27 @@ export default function Login() {
                     </svg>
                 )}
             </button>
-            <div className={`w-96 h-auto p-10 flex flex-col items-center justify-center shadow-md border-2 ${screenMode === 'dark' ? 'border-white' : 'border-primary'}  rounded-3xl gap-4`}>
-                <h1 className={`text-3xl font-bold ${screenMode === 'dark' ? 'text-white' : 'text-secondary'}`}>Login</h1>
+            <div
+                className={`w-96 h-auto p-10 flex flex-col items-center justify-center shadow-md border-2 ${
+                    screenMode === 'dark' ? 'border-white' : 'border-primary'
+                }  rounded-3xl gap-4`}
+            >
+                <h1
+                    className={`text-3xl font-bold ${
+                        screenMode === 'dark' ? 'text-white' : 'text-secondary'
+                    }`}
+                >
+                    Login
+                </h1>
                 <div className="w-full h-auto flex flex-col items-start justify-start gap-2">
-                    <label htmlFor="email" className={`text-sm font-semibold ${screenMode === 'dark' ? 'text-white' : 'text-secondary'}`}>
+                    <label
+                        htmlFor="email"
+                        className={`text-sm font-semibold ${
+                            screenMode === 'dark'
+                                ? 'text-white'
+                                : 'text-secondary'
+                        }`}
+                    >
                         Email
                     </label>
                     <input
@@ -72,7 +88,14 @@ export default function Login() {
                     />
                 </div>
                 <div className="w-full h-auto flex flex-col items-start justify-start gap-2">
-                    <label htmlFor="password" className={`text-sm font-semibold ${screenMode === 'dark' ? 'text-white' : 'text-secondary'}`}>
+                    <label
+                        htmlFor="password"
+                        className={`text-sm font-semibold ${
+                            screenMode === 'dark'
+                                ? 'text-white'
+                                : 'text-secondary'
+                        }`}
+                    >
                         Password
                     </label>
                     <input
@@ -84,6 +107,17 @@ export default function Login() {
                 <button className="w-auto h-auto flex items-center justify-center bg-primary rounded-lg px-5 py-3 font-semibold uppercase hover:scale-110 transition-all">
                     Log In
                 </button>
+                <Link to="/register">
+                    <p
+                        className={`text-sm font-semibold ${
+                            screenMode === 'dark'
+                                ? 'text-white'
+                                : 'text-secondary'
+                        }`}
+                    >
+                        Don&apos;t have an account? Register
+                    </p>
+                </Link>
             </div>
         </div>
     );
