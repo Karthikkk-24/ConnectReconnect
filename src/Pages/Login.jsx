@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import InputComponent from '../components/InputComponent';
+import CustomButton from '../components/CustomButton';
 
 export default function Login() {
     const [screenMode, setScreenMode] = useState(
@@ -59,8 +61,8 @@ export default function Login() {
                 )}
             </button>
             <div
-                className={`w-96 h-auto p-10 flex flex-col items-center justify-center shadow-md border-2 ${
-                    screenMode === 'dark' ? 'border-white' : 'border-primary'
+                className={`w-96 h-auto p-10 flex flex-col items-center justify-center shadow-xl border-2 ${
+                    screenMode === 'dark' ? 'border-white' : 'border-secondary'
                 }  rounded-3xl gap-4`}
             >
                 <h1
@@ -70,43 +72,21 @@ export default function Login() {
                 >
                     Login
                 </h1>
-                <div className="w-full h-auto flex flex-col items-start justify-start gap-2">
-                    <label
-                        htmlFor="email"
-                        className={`text-sm font-semibold ${
-                            screenMode === 'dark'
-                                ? 'text-white'
-                                : 'text-secondary'
-                        }`}
-                    >
-                        Email
-                    </label>
-                    <input
-                        type="text"
-                        className="w-full pl-3 h-12 rounded-lg border-2 border-slate-100"
-                        placeholder="Enter your Email ID"
-                    />
-                </div>
-                <div className="w-full h-auto flex flex-col items-start justify-start gap-2">
-                    <label
-                        htmlFor="password"
-                        className={`text-sm font-semibold ${
-                            screenMode === 'dark'
-                                ? 'text-white'
-                                : 'text-secondary'
-                        }`}
-                    >
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        className="w-full pl-3 h-12 rounded-lg border-2 border-slate-100"
-                        placeholder="Enter your password"
-                    />
-                </div>
-                <button className="w-auto h-auto flex items-center justify-center bg-primary rounded-lg px-5 py-3 font-semibold uppercase hover:scale-110 transition-all">
-                    Log In
-                </button>
+                <InputComponent
+                    screenMode={screenMode}
+                    label="Email"
+                    name="email"
+                    type="email"
+                    placeholder="Enter your Email ID"
+                />
+                <InputComponent
+                    screenMode={screenMode}
+                    label="Password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                />
+                <CustomButton screenMode={screenMode} text="Log In" />
                 <Link to="/register">
                     <p
                         className={`text-sm font-semibold ${
