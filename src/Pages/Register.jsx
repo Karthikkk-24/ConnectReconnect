@@ -16,6 +16,16 @@ export default function Register() {
         password: '',
     });
 
+    useEffect(() => {
+        checkIfLoggedIn();
+    }, []);
+
+    const checkIfLoggedIn = () => {
+        if (sessionStorage.getItem('token')) {
+            navigate('/');
+        }
+    };
+
     const navigate = useNavigate();
 
     const changeState = () => {

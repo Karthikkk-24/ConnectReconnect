@@ -6,7 +6,7 @@ export default function Main() {
     }, []);
 
     function checkLogin() {
-        if (!localStorage.getItem('token')) {
+        if (!sessionStorage.getItem('token')) {
             window.location.href = '/login';
         }
     }

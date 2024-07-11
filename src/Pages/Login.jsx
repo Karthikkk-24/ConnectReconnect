@@ -15,6 +15,16 @@ export default function Login() {
         password: '',
     });
 
+    useEffect(() => {
+        checkIfLoggedIn();
+    }, []);
+
+    const checkIfLoggedIn = () => {
+        if (sessionStorage.getItem('token')) {
+            navigate('/');
+        }
+    };
+
     const navigate = useNavigate();
 
     const changeState = () => {
@@ -54,10 +64,10 @@ export default function Login() {
                 const data = await response.json();
                 console.log(data);
                 successMessage('Login successful');
-                localStorage.clear();
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', data.user.username);
-                localStorage.setItem('user_id', data.user.uniqueId);
+                sessionStorage.clear();
+                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('user', data.user.username);
+                sessionStorage.setItem('user_id', data.user.uniqueId);
                 navigate('/');
             } else {
                 console.log(response.data);
