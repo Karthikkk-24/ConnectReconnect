@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CustomButton from '../components/CustomButton';
 import InputComponent from '../components/InputComponent';
 
@@ -22,6 +24,9 @@ export default function Register() {
         sessionStorage.setItem('mode', newMode);
     };
 
+    const successMessage = (param) => toast.success(param);
+    const errorMessage = (param) => toast.error(param);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -43,9 +48,11 @@ export default function Register() {
             
             if (response.status === 201) {
                 console.log(response.data);
+                successMessage('User created successfully');
                 navigate('/login');
             } else {
                 console.log(response.data);
+                errorMessage(response.data.message);
             }
 
         } catch (error) {
@@ -63,6 +70,7 @@ export default function Register() {
                 screenMode === 'dark' ? 'bg-secondary' : 'bg-white'
             }`}
         >
+            <ToastContainer />
             <button onClick={changeState} className="absolute top-5 right-5">
                 {screenMode === 'dark' ? (
                     <svg

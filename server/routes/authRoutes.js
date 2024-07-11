@@ -4,10 +4,13 @@ import User from '../models/userModel.js';
 const router = express.Router();
 
 function generateToken(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let token = '';
     for (let i = 0; i < length; i++) {
-        token += characters.charAt(Math.floor(Math.random() * characters.length));
+        token += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+        );
     }
     return token;
 }
@@ -19,9 +22,9 @@ router.post('/register', async (req, res) => {
     try {
         const user = new User({ username, password });
         await user.save();
-        res.status(201).send('User registered');
+        res.json({ message: 'User created successfully', status: 201 });
     } catch (error) {
-        res.status(400).send(error.message);
+        res.json({ message: error.message });
     }
 });
 
