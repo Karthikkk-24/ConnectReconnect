@@ -14,6 +14,7 @@ function generateToken(length) {
 
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
+    console.log(username, password);
 
     try {
         const user = new User({ username, password });

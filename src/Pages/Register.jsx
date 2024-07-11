@@ -1,18 +1,57 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import InputComponent from '../components/InputComponent';
+import { Link, useNavigate } from 'react-router-dom';
 import CustomButton from '../components/CustomButton';
+import InputComponent from '../components/InputComponent';
 
 export default function Register() {
     const [screenMode, setScreenMode] = useState(
         () => sessionStorage.getItem('mode') || 'light'
     );
 
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+    });
+
+    const navigate = useNavigate();
+
     const changeState = () => {
         const newMode = screenMode === 'dark' ? 'light' : 'dark';
         setScreenMode(newMode);
         sessionStorage.setItem('mode', newMode);
     };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async(e) => {
+        try {
+            e.preventDefault();
+            const response = await fetch('http://localhost:3000/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            
+            if (response.status === 201) {
+                console.log(response.data);
+                navigate('/login');
+            } else {
+                console.log(response.data);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         sessionStorage.setItem('mode', screenMode);
@@ -78,6 +117,8 @@ export default function Register() {
                     name="username"
                     type="text"
                     placeholder="Enter your Username"
+                    value={formData.username}
+                    onChange={handleInputChange}
                 />
                 <InputComponent
                     screenMode={screenMode}
@@ -85,15 +126,19 @@ export default function Register() {
                     name="email"
                     type="email"
                     placeholder="Enter your Email ID"
+                    value={formData.email}
+                    onChange={handleInputChange}
                 />
                 <InputComponent
                     screenMode={screenMode}
                     label="Password"
                     name="password"
                     type="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     placeholder="Enter your password"
                 />
-                <CustomButton screenMode={screenMode} text="Sign Up" />
+                <CustomButton screenMode={screenMode} text="Sign Up" onClick={handleSubmit} />
                 <Link to="/login">
                     <p
                         className={`text-sm font-semibold ${
