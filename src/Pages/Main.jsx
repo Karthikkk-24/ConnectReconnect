@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Main() {
     useEffect(() => {
         checkLogin();
     }, []);
 
+    const navigate = useNavigate();
+
     function checkLogin() {
         if (!sessionStorage.getItem('token')) {
-            window.location.href = '/login';
+            navigate('/login');
+        } else {
+            navigate('/');
         }
     }
 
