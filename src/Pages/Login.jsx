@@ -1,12 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import InputComponent from '../components/InputComponent';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CustomButton from '../components/CustomButton';
+import InputComponent from '../components/InputComponent';
 
 export default function Login() {
     const [screenMode, setScreenMode] = useState(
         () => sessionStorage.getItem('mode') || 'light'
     );
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    const navigate = useNavigate();
 
     const changeState = () => {
         const newMode = screenMode === 'dark' ? 'light' : 'dark';
@@ -18,12 +27,54 @@ export default function Login() {
         sessionStorage.setItem('mode', screenMode);
     }, [screenMode]);
 
+    const successMessage = (param) => toast.success(param);
+    const errorMessage = (param) => toast.error(param);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault();
+
+            const response = await fetch('http://localhost:3000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log(data);
+                successMessage('Login successful');
+                localStorage.clear();
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', data.user.username);
+                localStorage.setItem('user_id', data.user.uniqueId);
+                navigate('/');
+            } else {
+                console.log(response.data);
+                errorMessage(response.data.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div
             className={`h-screen w-screen overflow-hidden flex flex-col items-center justify-center relative ${
                 screenMode === 'dark' ? 'bg-secondary' : 'bg-white'
             }`}
         >
+            <ToastContainer />
             <button onClick={changeState} className="absolute top-5 right-5">
                 {screenMode === 'dark' ? (
                     <svg
@@ -78,6 +129,8 @@ export default function Login() {
                     name="email"
                     type="email"
                     placeholder="Enter your Email ID"
+                    value={FormData.email}
+                    onChange={handleInputChange}
                 />
                 <InputComponent
                     screenMode={screenMode}
@@ -85,8 +138,14 @@ export default function Login() {
                     name="password"
                     type="password"
                     placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                 />
-                <CustomButton screenMode={screenMode} text="Log In" />
+                <CustomButton
+                    screenMode={screenMode}
+                    text="Log In"
+                    onClick={handleSubmit}
+                />
                 <Link to="/register">
                     <p
                         className={`text-sm font-semibold ${
