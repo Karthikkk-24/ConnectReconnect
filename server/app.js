@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import mongoose from 'mongoose';
-import authRoutes from './authRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 const PORT = 3000;
